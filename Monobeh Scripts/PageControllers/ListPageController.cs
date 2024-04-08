@@ -7,6 +7,7 @@ public class ListPageController : MonoBehaviour
 {
     // Start is called before the first frame update
     GroupPlateDisplayController GroupPlateDisplay;
+    public BuiltinPlateController[] BuiltinGroupsControllers;
     void Start()
     {
         GroupPlateDisplay = GetComponent<GroupPlateDisplayController>();
@@ -17,6 +18,10 @@ public class ListPageController : MonoBehaviour
     public void UpdatePage()
     {
         GroupPlateDisplay.UpdatePlates();
+        foreach (BuiltinPlateController controller in BuiltinGroupsControllers)
+        {
+            controller.UpdatePlate();
+        }
     }
 
     public void AddGroup()

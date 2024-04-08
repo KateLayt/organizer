@@ -35,9 +35,12 @@ public class ListSubpageController : MonoBehaviour
 
         if (!String.IsNullOrEmpty(RepresentedTaskgroup.Description))
         {
-            Debug.Log("Вывод описания.");
             GameObject DescriptionHolder = Instantiate(original: DescriptionPrefab, parent: Layout.transform);
             DescriptionHolder.GetComponent<Text>().text = RepresentedTaskgroup.Description;
+        }
+        else
+        {
+            GameObject DescriptionHolder = Instantiate(original: new GameObject(), parent: Layout.transform);
         }
 
         if (RepresentedTaskgroup.IsBuiltin) EditButton.SetActive(false);
@@ -51,6 +54,7 @@ public class ListSubpageController : MonoBehaviour
     {
         for (int i = Layout.transform.childCount - 1; i >= 0; i--)
         {
+            Debug.Log($"Subpage: Destroying {Layout.transform.GetChild(i).name}");
             Destroy(Layout.transform.GetChild(i).gameObject);
         }
     }

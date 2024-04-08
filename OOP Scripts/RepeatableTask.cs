@@ -10,7 +10,6 @@ namespace FamilyOrganizer
 {
     public class RepeatableTask : Task
     {
-        //private int _interval;
         private DateTime _lastDone, _deadline;
         private int _interval;
         public RepeatableTask(string name, int interval, Person executor)
@@ -27,7 +26,7 @@ namespace FamilyOrganizer
             get { return _deadline; }
             set
             {
-                if (value < DateTime.Today) throw new ArgumentOutOfRangeException("deadline", "Крайний срок не может быть раньше сегодняшнего дня.");
+                if (value < DateTime.Now) throw new ArgumentOutOfRangeException("deadline", "Крайний срок не может быть раньше сегодняшнего дня.");
                 _deadline = value;
             }
         }
@@ -60,35 +59,20 @@ namespace FamilyOrganizer
             }
         }
 
-        /*public int Interval
-        { 
-            get { return _interval; } 
-            set
-            {
-                if (value < 1) throw new ArgumentOutOfRangeException("interval", "Промежуток между повторами не может быть меньше одного дня.");
-                _interval = value;
-            }
-        }*/
 
         public DateTime LastDone
         {
             get { return _lastDone; }
             set
             {
-                if (value > DateTime.Today) throw new ArgumentOutOfRangeException("LastDone", "Задача не могла быть выполнена в последний раз позже сегодняшнего дня.");
+                if (value > DateTime.Now) throw new ArgumentOutOfRangeException("LastDone", "Задача не могла быть выполнена в последний раз позже сегодняшнего дня.");
                 _lastDone = value;
             }
         }
 
         public void UpdateTask()
         {
-            if (DateTime.Now >= Deadline)
-            {
-                TaskStatus = "За работу!";
-                return;
-            }
-
-            int overallDays = Deadline.Subtract(LastDone).Days;
+            int overallDays = Interval;
             int currentDays = DateTime.Now.Subtract(LastDone).Days;
 
             if (currentDays < overallDays / 3)
@@ -110,8 +94,8 @@ namespace FamilyOrganizer
 
         public void Complete()
         {
-            Deadline = DateTime.Now.AddDays(Interval);
-            LastDone = DateTime.Now;
+            Deadline = DateTime.Today.AddDays(Interval);
+            LastDone = DateTime.Today;
             this.UpdateTask();
         }
 

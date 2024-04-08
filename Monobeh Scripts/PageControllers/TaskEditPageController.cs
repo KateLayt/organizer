@@ -29,9 +29,10 @@ public class TaskEditPageController : MonoBehaviour
         {
             RepresentedTask.Name = NameHolder.text;
         }
-        catch
+        catch (Exception e)
         {
             NameWarning.SetActive(true);
+            NameWarning.GetComponent<Text>().text = e.Message;
         }
     }
 
@@ -44,12 +45,17 @@ public class TaskEditPageController : MonoBehaviour
             { 
                 int interval = Int32.Parse(IntervalHolder.text);
                 repeatableTask.Interval = interval;
-                Debug.Log("Мы сменили интервал");
             }
-            catch (Exception e)
+            catch (ArgumentOutOfRangeException e)
             {
                 IntervalWarning.SetActive(true);
                 IntervalWarning.GetComponent<Text>().text = e.Message;
+                return;
+            }
+            catch
+            {
+                IntervalWarning.SetActive(true);
+                IntervalWarning.GetComponent<Text>().text = "Некорректный ввод. Введите целое число.";
             }
         }
     }

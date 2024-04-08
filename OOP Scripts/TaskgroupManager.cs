@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEditor.VersionControl;
 
 namespace FamilyOrganizer
 {
     public class TaskgroupManager
     {
-        private Dictionary<int, TaskGroup> _taskGroup = new();
+        private Dictionary<int, TaskGroup> _taskGroups = new();
         private Person _owner;
         public TaskgroupManager(Person owner) 
         {
@@ -28,23 +29,25 @@ namespace FamilyOrganizer
 
         public void AddTaskGroup(TaskGroup taskgroup)
         {
-            _taskGroup.Add(taskgroup.TaskgroupID, taskgroup);
+            if (_taskGroups.ContainsKey(taskgroup.TaskgroupID)) throw new Exception("Эта группа уже входит в коллекцию задач.");
+            _taskGroups.Add(taskgroup.TaskgroupID, taskgroup);
         }
 
-        //тут ещё предупреждения о наличии такого айди вообще. аналогично в группе задач при поиске/удалении задач
         public void RemoveTaskGroup(int taskgroupID)
         {
-            _taskGroup.Remove(taskgroupID);
+            if (!_taskGroups.ContainsKey(taskgroupID)) throw new Exception("Нельзя удалить группу задач, которой нет в коллекции.");
+            _taskGroups.Remove(taskgroupID);
         }
 
         public TaskGroup GetTaskGroup(int taskgroupID)
         {
-            return _taskGroup[taskgroupID];
+            if (!_taskGroups.ContainsKey(taskgroupID)) throw new Exception("Нельзя получить группу задач, которой нет в коллекции.");
+            return _taskGroups[taskgroupID];
         }
 
         public List<TaskGroup> GetAllGroups()
         {
-            return _taskGroup.Values.ToList();
+            return _taskGroups.Values.ToList();
         }
 
     }

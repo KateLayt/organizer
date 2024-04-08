@@ -9,7 +9,6 @@ using FantomLib;
 using System;
 public class TaskPlateDisplayController : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     public GameObject PlatePrefab, PlatesLayout;
     public TaskGroup RepresentedGroup;
@@ -29,8 +28,9 @@ public class TaskPlateDisplayController : MonoBehaviour
     }
     private void DestroyPlates()
     {
-        for (int i = PlatesLayout.transform.childCount - 1; i >= DestroyUntil; i--)
+        for (int i = PlatesLayout.transform.childCount - 1 - DestroyUntil; i >= 0; i--)
         {
+            Debug.Log($"PlateDisplay: Destroying {PlatesLayout.transform.GetChild(i).name}   index: {i}");
             Destroy(PlatesLayout.transform.GetChild(i).gameObject);
         }
     }

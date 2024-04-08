@@ -22,26 +22,6 @@ public class PageController
         ListEditController.gameObject.SetActive(false);
         TaskEditController.gameObject.SetActive(false);
     }
-
-    /*public static void ChangePage(string pageName)
-    {
-        DisablePages();
-        if (IsAvailable)
-        {
-            switch (pageName)
-            {
-                case "home":
-                    HomePage.SetActive(true); break;
-                case "list":
-                    ListPage.SetActive(true); break;
-                case "account":
-                    ProfilePage.SetActive(true); break;
-                default:
-                    Debug.Log("Invalid data in page changing switch case.");
-                    break;
-            }
-        }
-    }*/
     public static void OpenHome()
     {
         DisablePages();

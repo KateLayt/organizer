@@ -63,21 +63,22 @@ namespace FamilyOrganizer
             }
         }
 
-        //on add an remove calls UpdatePage method calls from above are needed.
         public void AddTask(Task task)
         {
+            if (_tasks.ContainsKey(task.ID)) throw new Exception("Эта задача уже входит в эту группу.");
             _tasks.Add(task.ID, task);
             UnityEngine.Debug.Log($"В группу с айди {TaskgroupID} добавилась задачи с айди {task.ID}");
         }
 
         public void RemoveTask(int id)
         {
+            if (!_tasks.ContainsKey(id)) throw new Exception("Задача с таким ключом не может быть удалена, так как её нет в группе.");
             _tasks.Remove(id);
         }
 
-        //Вот тут прикол с айди, аккуратно. И вообще проверку на наличие сюда бы прилепить
         public Task GetTask(int id)
         {
+            if (!_tasks.ContainsKey(id)) throw new Exception("Задача с таким ключом не может быть получена, так как её нет в группе.");
             return _tasks[id];
         }
         
@@ -89,16 +90,6 @@ namespace FamilyOrganizer
                 tasks.Add(task);
             }
             return tasks;
-        }
-
-        public List<int> GetGroupData()
-        {
-            List<int> data = new();
-            foreach (Task t in _tasks.Values)
-            {
-                data.Add(t.ID);
-            }
-            return data;
         }
 
         public void ClearGroup()
